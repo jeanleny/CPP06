@@ -1,0 +1,14 @@
+[
+{
+	"directory": "/home/lperis/Work/CommonCore/5th/CPP/CPP_06/ex00",
+	"arguments": ["c++", "-Wall", "-Werror", "-Wextra", "-std=c++98", "-MMD", "-MP", "-g", "-Iinclude", "-c", "src/main.cpp", "-o", "object/main.o"],
+	"file": "src/main.cpp",
+	"output": "object/main.o"
+},
+{
+	"directory": "/home/lperis/Work/CommonCore/5th/CPP/CPP_06/ex00",
+	"arguments": ["c++", "-Wall", "-Werror", "-Wextra", "-std=c++98", "-MMD", "-MP", "-g", "-Iinclude", "-c", "src/ScalarConverter.cpp", "-o", "object/ScalarConverter.o"],
+	"file": "src/ScalarConverter.cpp",
+	"output": "object/ScalarConverter.o"
+}
+]

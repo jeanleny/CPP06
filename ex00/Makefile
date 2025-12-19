@@ -6,10 +6,9 @@ RM			= rm -f
 HEADER		= include
 SRC_DIR		= src
 BUILD_DIR	= object
-NAME		= form
-SRC			+= src/main.cpp			\
-			   src/Bureaucrat.cpp	\
-			   src/Form.cpp
+NAME		= convert
+SRC			+= src/main.cpp				\
+			   src/ScalarConverter.cpp	\
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)
