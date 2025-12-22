@@ -7,7 +7,8 @@ HEADER		= include
 SRC_DIR		= src
 BUILD_DIR	= object
 NAME		= serializer
-SRC			+= src/main.cpp				
+SRC			+= src/main.cpp	\
+			   src/Serializer.cpp
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)
