@@ -1,72 +1,5 @@
 #include <ScalarConverter.hpp>
-#include <stdlib.h>
-#include <limits>
-#include <limits.h>
-#include <float.h>
-#include <iomanip>
-#include <cctype>
-#include <unistd.h>
-
-bool	isSigned(std::string input)
-{
-	if (input[0] == '+' || input[0] == '-')
-		return(true);
-	return (false);
-}
-
-bool isDisplayable(std::string input)
-{
-	int nb = std::atoi(input.c_str());
-	if (nb > 0 && nb < 127)
-	{
-		if (std::isprint(nb))
-			return (true);
-	}
-	return (false);
-}
-
-bool	 isInt(std::string input)
-{
-	std::string::iterator it = input.begin();
-
-	if (isSigned(input))
-		it++;
-	while(it != input.end() && std::isdigit(*it))
-		it++;
-	if (it == input.end())
-		return (true);
-	return (false);
-}
-
-bool	isFloatComp(char c)
-{
-	return (c == '.' || c == 'f' || c == '-' || c == '+');
-}
-
-bool	isFloat(std::string input)
-{
-	std::string::iterator it = input.begin();
-
-	while (it != input.end() && (std::isdigit(*it) || isFloatComp(*it)))
-		it++;
-	if (it == input.end())
-		return (true);
-	return (false);
-}
-
-bool	floatLiteral(std::string input)
-{
-	if (input == "-inff" || input == "+inff" || input == "nanf")
-		return (true);
-	return (false);
-}
-
-bool	doubleLiteral(std::string input)
-{
-	if (input == "-inf" || input == "+inf" || input == "nan")
-		return (true);
-	return (false);
-}
+#include <ScalarBool.h>
 
 void	displayInt(std::string input)
 {
@@ -153,28 +86,31 @@ void	displayChar(std::string input)
 		std::cout << "char : Impossible" << std::endl;
 		return ;
 	}
-	if (isInt(input) && !isDisplayable(input))
+	if (isFloat(input) && !isDisplayable(input))
 	{
 		std::cout << "char : undisplayable" << std::endl;
 		return ;
 	}
-	if (isInt(input))
+	if (isFloat(input))
 		result = std::atoi(input.c_str());
 	else
 		result = *input.c_str();
 	std::cout << "char : '" << static_cast<char>(result) << "'" << std::endl;
 }
 
-bool	quoted(std::string input)
-{
-	return (input[0] == '\'' && input[2] == '\'');
-}
 
 void	displayCast(std::string input)
 {
 	if (input.length() == 3 && quoted(input))
+	{
 		input = input[1];
-	displayChar(input);
+		if (std::isdigit(input[0]))
+			std::cout << "char : '" << static_cast<char>(input[0]) << "'" << std::endl;
+		else
+			displayChar(input);
+	}
+	else 
+		displayChar(input);
 	displayInt(input);
 	displayFloat(input);
 	displayDouble(input);

@@ -2,6 +2,12 @@
 # define SCALARCONVERTER_HPP
 
 #include <iostream>
+#include <stdlib.h>
+#include <limits>
+#include <limits.h>
+#include <float.h>
+#include <iomanip>
+#include <cctype>
 
 class ScalarConverter
 {

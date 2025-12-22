@@ -6,10 +6,8 @@ RM			= rm -f
 HEADER		= include
 SRC_DIR		= src
 BUILD_DIR	= object
-NAME		= convert
-SRC			+= src/main.cpp				\
-			   src/ScalarConverter.cpp	\
-			   src/isBool.cpp
+NAME		= serializer
+SRC			+= src/main.cpp				
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)
