@@ -6,9 +6,13 @@ RM			= rm -f
 HEADER		= include
 SRC_DIR		= src
 BUILD_DIR	= object
-NAME		= serializer
+NAME		= typeId
 SRC			+= src/main.cpp	\
-			   src/Serializer.cpp
+			   src/Base.cpp	\
+			   src/A.cpp	\
+			   src/B.cpp	\
+			   src/C.cpp	
+
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)
