@@ -11,5 +11,7 @@ bool 	isDisplayable(std::string input);
 bool	 isInt(std::string input);
 bool	isFloatComp(char c);
 bool	isFloat(std::string input);
+bool	onlySign(std::string input);
+bool	multSign(std::string input);
 
 #endif

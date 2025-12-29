@@ -8,10 +8,7 @@ SRC_DIR		= src
 BUILD_DIR	= object
 NAME		= typeId
 SRC			+= src/main.cpp	\
-			   src/Base.cpp	\
-			   src/A.cpp	\
-			   src/B.cpp	\
-			   src/C.cpp	
+			   src/Base.cpp	
 
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}

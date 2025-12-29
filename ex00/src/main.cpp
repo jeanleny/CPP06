@@ -1,172 +1,209 @@
-#include <ScalarConverter.hpp>
-
-/*int main(int argc, char **argv)
-{
-	if (argc == 2)
-	{
-		ScalarConverter::convert(argv[1]);
-		return (1);
-	}
-	std::cout << "Please enter only one argument" << std::endl;
-}*/
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tobourge <tobourge@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 16:34:47 by tobourge          #+#    #+#             */
-/*   Updated: 2025/10/19 14:33:00 by tobourge         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include <iostream>
 
 #include "ScalarConverter.hpp"
 
-int main(int argc, char **argv)
+static void displayTest(const std::string& testName)
 {
-    if (argc > 2)
-    {
-        std::cout << "Error : Arguments needed : 1" << std::endl;
-        return 1;
-    }
-    if (argc == 2)
-        ScalarConverter::convert(argv[1]);
-    else
-    {
-    	std::cout << "\036[33m" << ">>>>> CHAR <<<<<<" << "\036[0m" << std::endl;
+	std::cout << std::endl << std::endl;
+	std::cout << "\033[33m" << "---------- " << testName << " Test ----------" << "\033[0m" << std::endl;
+}
 
-    	std::cout << "----------Test 'c'----------" << std::endl;
-        ScalarConverter::convert("'c'");
-    	std::cout << std::endl << std::endl;
+static void unitTestChar()
+{
+	displayTest("'c'");
+	ScalarConverter::convert("'c'");
+	
+	displayTest("'0'");
+	ScalarConverter::convert("'0'");
+	
+	displayTest("'\\'");
+	ScalarConverter::convert("'\\'");
+	
+	displayTest("'*'");
+	ScalarConverter::convert("'*'");
+	
+	displayTest("'\t'");
+	ScalarConverter::convert("'\t'");
+	
+	displayTest("' '");
+	ScalarConverter::convert("' '");
+	
+	displayTest("'''");
+	ScalarConverter::convert("'''");
+}
 
-    	std::cout << "----------Test '0'----------" << std::endl;
-        ScalarConverter::convert("'0'");
-    	std::cout << std::endl << std::endl;
+static void unitTestInt()
+{
+	displayTest("0");
+	ScalarConverter::convert("0");
 
-    	std::cout << "----------Test '\\'----------" << std::endl;
-        ScalarConverter::convert("'\\'");
-    	std::cout << std::endl << std::endl;
+	displayTest("42");
+	ScalarConverter::convert("42");
 
-    	std::cout << "----------Test '*'----------" << std::endl;
-        ScalarConverter::convert("'*'");
-    	std::cout << std::endl << std::endl;
+	displayTest("00");
+	ScalarConverter::convert("00");
 
-    	std::cout << "----------Test ' '----------" << std::endl;
-        ScalarConverter::convert("' '");
-    	std::cout << std::endl << std::endl;
+	displayTest("+9");
+	ScalarConverter::convert("+9");
 
-    	std::cout << "----------Test '''----------" << std::endl;
-        ScalarConverter::convert("'''");
-    	std::cout << std::endl << std::endl;
+	displayTest("-99");
+	ScalarConverter::convert("-99");
 
-    	std::cout << "\033[33m" << ">>>>> INT <<<<<<" << "\033[0m" << std::endl;
-        
-    	std::cout << "----------Test '0'----------" << std::endl;
-        ScalarConverter::convert("0");
-    	std::cout << std::endl << std::endl;
+	displayTest("-09");
+	ScalarConverter::convert("-09");
 
-    	std::cout << "----------Test '42'----------" << std::endl;
-        ScalarConverter::convert("42");
-    	std::cout << std::endl << std::endl;
+	displayTest("2147483647");
+	ScalarConverter::convert("2147483647");
+	std::cout << 2147483647 << " <=> " << static_cast<float>(2147483647) << " <=> " << static_cast<double>(2147483647) << std::endl;
 
-    	std::cout << "----------Test '+9'----------" << std::endl;
-        ScalarConverter::convert("+9");
-    	std::cout << std::endl << std::endl;
+	displayTest("-2147483648");
+	ScalarConverter::convert("-2147483648");
+}
 
-    	std::cout << "----------Test '-99'----------" << std::endl;
-        ScalarConverter::convert("-99");
-    	std::cout << std::endl << std::endl;
+static void unitTestFloat()
+{
+	displayTest("42.0f");
+	ScalarConverter::convert("42.0f");
+	
+	displayTest("-42.3f");
+	ScalarConverter::convert("-42.3f");
+	
+	displayTest("-07.2F");
+	ScalarConverter::convert("-07.2F");
+	
+	displayTest("-12.f");
+	ScalarConverter::convert("-12.f");
+	
+	displayTest("+12.F");
+	ScalarConverter::convert("+12.F");
+	
+	displayTest("+1.2345678f");
+	ScalarConverter::convert("+1.2345678f");
+	
+	displayTest("340282346638528859811704183484516925440.0000000f");
+	ScalarConverter::convert("340282346638528859811704183484516925440.0000000f");
+	
+	displayTest("-340282346638528859811704183484516925440.0000000f");
+	ScalarConverter::convert("-340282346638528859811704183484516925440.0000000f");
 
-    	std::cout << "----------Test 'INT MAX'----------" << std::endl;
-        ScalarConverter::convert("2147483647");
-    	std::cout << std::endl << std::endl;
+	displayTest("-inff");
+	ScalarConverter::convert("-inff");
 
-    	std::cout << "----------Test 'INT MAX + 1'----------" << std::endl;
-        ScalarConverter::convert("2147483648");
-    	std::cout << std::endl << std::endl;
+	displayTest("+inff");
+	ScalarConverter::convert("+inff");
 
-    	std::cout << "----------Test 'INT MIN'----------" << std::endl;
-        ScalarConverter::convert("-2147483648");
-    	std::cout << std::endl << std::endl;
+	displayTest("nanf");
+	ScalarConverter::convert("nanf");
+}
 
-    	std::cout << "\033[33m" << ">>>>> FLOAT <<<<<<" << "\033[0m" << std::endl;
+static void unitTestDouble()
+{
+	displayTest("42.0");
+	ScalarConverter::convert("42.0");
 
-    	std::cout << "----------Test '42.0f'----------" << std::endl;
-        ScalarConverter::convert("42.0f");
-    	std::cout << std::endl << std::endl;
+	displayTest("2147483648.0");
+	ScalarConverter::convert("2147483648.0");
 
-    	std::cout << "----------Test '-42.3f'----------" << std::endl;
-        ScalarConverter::convert("-42.3f");
-    	std::cout << std::endl << std::endl;
+	displayTest("-2147483649.0");
+	ScalarConverter::convert("-2147483649.0");
+	std::cout << static_cast<float>(-2147483649.0) << " <=> " << -2147483649.0 << std::endl;
 
-    	std::cout << "----------Test '-12.f'----------" << std::endl;
-        
-        ScalarConverter::convert("-12.f");
-    	std::cout << std::endl << std::endl;
+	displayTest("-42000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.0");
+	ScalarConverter::convert("-42000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.0");
+	std::cout << -42000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.0 << std::endl;
 
-    	std::cout << "----------Test '+1.2345678f'----------" << std::endl;
-        ScalarConverter::convert("+1.2345678f");
-    	std::cout << std::endl << std::endl;
+	displayTest("46.0000000");
+	ScalarConverter::convert("46.0000000");
 
-    	std::cout << "----------Test 'long float'----------" << std::endl;
-        ScalarConverter::convert("340282346638528859811704183484516925440.0000000f");
-    	std::cout << std::endl << std::endl;
+	displayTest("43.");
+	ScalarConverter::convert("43.");
 
-    	std::cout << "----------Test 'negative long float'----------" << std::endl;
-        ScalarConverter::convert("-340282346638528859811704183484516925440.0000000f");
-    	std::cout << std::endl << std::endl;
+	displayTest("-inf");
+	ScalarConverter::convert("-inf");
 
-    	std::cout << "----------Test '-inff'----------" << std::endl;
-        ScalarConverter::convert("-inff");
-    	std::cout << std::endl << std::endl;
+	displayTest("+inf");
+	ScalarConverter::convert("+inf");
 
-    	std::cout << "----------Test '+inff'----------" << std::endl;
-        ScalarConverter::convert("+inff");
-    	std::cout << std::endl << std::endl;
+	displayTest("nan");
+	ScalarConverter::convert("nan");
+}
 
-    	std::cout << "----------Test 'nanf'----------" << std::endl;
-        ScalarConverter::convert("nanf");
-    	std::cout << std::endl << std::endl;
+static void unitTestError()
+{
+	displayTest(" ");
+	ScalarConverter::convert(" ");
 
-    	std::cout << "\033[33m" << ">>>>> DOUBLE <<<<<<" << "\033[0m" << std::endl;
-    	
-        std::cout << "----------Test '42.0'----------" << std::endl;
-        ScalarConverter::convert("42.0");
-    	std::cout << std::endl << std::endl;
+	displayTest("s");
+	ScalarConverter::convert("s");
 
-    	std::cout << "----------Test '2147483648.0'----------" << std::endl;
-        ScalarConverter::convert("2147483648.0");
-    	std::cout << std::endl << std::endl;
+	displayTest("'24'");
+	ScalarConverter::convert("'24'");
 
-    	std::cout << "----------Test '-2147483649.0'----------" << std::endl;
-        ScalarConverter::convert("-2147483649.0");
-    	std::cout << std::endl << std::endl;
+	displayTest("''");
+	ScalarConverter::convert("''");
 
-    	std::cout << "----------Test 'loooong double'----------" << std::endl;
-        ScalarConverter::convert("-42000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000.0");
-    	std::cout << std::endl << std::endl;
+	displayTest("'38");
+	ScalarConverter::convert("'38");
 
-    	std::cout << "----------Test '46.0000000'----------" << std::endl;
-        ScalarConverter::convert("46.0000000");
-    	std::cout << std::endl << std::endl;
+	displayTest("");
+	ScalarConverter::convert("");
 
-    	std::cout << "----------Test '43.'----------" << std::endl;
-        ScalarConverter::convert("43.");
-    	std::cout << std::endl << std::endl;
+	displayTest("         ");
+	ScalarConverter::convert("            ");
 
-    	std::cout << "----------Test '-inf'----------" << std::endl;
-        ScalarConverter::convert("-inf");
-    	std::cout << std::endl << std::endl;
+	displayTest("1234 ");
+	ScalarConverter::convert("1234 ");
 
-    	std::cout << "----------Test '+inf'----------" << std::endl;
-        ScalarConverter::convert("+inf");
-    	std::cout << std::endl << std::endl;
+	displayTest("56 78");
+	ScalarConverter::convert("56 78");
 
-    	std::cout << "----------Test 'nan'----------" << std::endl;
-        ScalarConverter::convert("nan");
-    	std::cout << std::endl << std::endl;
+	displayTest(" 9876");
+	ScalarConverter::convert(" 9876");
 
-    }
-    return 0; 
+	displayTest("54v32");
+	ScalarConverter::convert("54v32");
+
+	displayTest("-+34");
+	ScalarConverter::convert("-+34");
+
+	displayTest("1*12");
+	ScalarConverter::convert("1*12");
+
+	displayTest("2147483648");
+	ScalarConverter::convert("2147483648");
+
+	displayTest("-2147483649");
+	ScalarConverter::convert("-2147483649");
+
+	displayTest("-inf.");
+	ScalarConverter::convert("-inf.");
+
+	displayTest("+inf.f");
+	ScalarConverter::convert("+inf.f");
+
+	displayTest(".nan");
+	ScalarConverter::convert(".nan");
+}
+
+static void unitTest()
+{
+	unitTestChar();
+	unitTestInt();
+	unitTestFloat();
+	unitTestDouble();
+	unitTestError();
+}
+
+int main(int argc, char* argv[])
+{
+	if (argc > 2)
+	{
+		std::cout << "Too many parameters" << std::endl;
+		return 1;
+	}
+	if (argc == 2)
+		ScalarConverter::convert(argv[1]);
+	else
+		unitTest();
+	return 0;
 }

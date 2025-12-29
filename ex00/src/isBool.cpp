@@ -1,5 +1,22 @@
 #include <ScalarConverter.hpp>
 
+bool	isSigned(std::string input)
+{
+	return (input[0] == '+' || input[0] == '-');
+}
+
+bool	multSign(std::string input)
+{
+	size_t i = 0;
+	while (input[i] && (input[i] == '+' || input [i] == '-'))
+	{
+		i++;
+		if (i > 1)
+			return (true);
+	}
+	return (false);
+}
+
 bool	quoted(std::string input)
 {
 	return (input[0] == '\'' && input[2] == '\'');
@@ -15,9 +32,9 @@ bool	doubleLiteral(std::string input)
 	return (input == "-inf" || input == "+inf" || input == "nan");
 }
 
-bool	isSigned(std::string input)
+bool	onlySign(std::string input)
 {
-	return (input[0] == '+' || input[0] == '-');
+	return (input.size() == 1 && isSigned(input));
 }
 
 bool isDisplayable(std::string input)
@@ -42,16 +59,26 @@ bool	 isInt(std::string input)
 	return (it == input.end());
 }
 
-bool	isFloatComp(char c)
+bool	isFloatComp(char c, bool *p, bool *f)
 {
-	return (c == '.' || c == 'f' || c == '-' || c == '+');
+	if (c == '.' && *p)
+		return(false);
+	else if (c == '.')
+		*p = true;
+	if ((c == 'f' || c == 'F') && *f)
+		return(false);
+	else if (c == 'f' || c == 'F')
+		*f = true;
+	return (c == '.' || c == 'f' || c == 'F' || c == '-' || c == '+');
 }
 
 bool	isFloat(std::string input)
 {
 	std::string::iterator it = input.begin();
+	bool	p = false;
+	bool	f = false;
 
-	while (it != input.end() && (std::isdigit(*it) || isFloatComp(*it)))
+	while (it != input.end() && (std::isdigit(*it) || isFloatComp(*it, &p, &f)))
 		it++;
 	if (it == input.end())
 		return (true);
